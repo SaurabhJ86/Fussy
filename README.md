@@ -1,5 +1,5 @@
 # Fussy
-This project has been created for Django revision.
+This is a Django revision project.
 
 ## Tech
 - Django 1.11
