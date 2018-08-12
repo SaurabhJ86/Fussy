@@ -2,7 +2,8 @@
 
 {% block content %}
 <body>
-<h1>Hello World!</h1>
-<p>{{ hello }} Coming through friend</p>
+	{{ block.super }}
+	<h1>Hello World!</h1>
+	<p>{{ hello }} Coming through friend</p>
 </body>
 {% endblock %}
