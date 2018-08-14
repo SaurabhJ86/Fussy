@@ -4,10 +4,10 @@ from django.views import View
 from django.views.generic.base import TemplateView
 # Create your views here.
 
-def home(request):
+# def home(request):
 
-	context = {"hello":"saurabh"}
-	return render(request,'home.html',context)
+# 	context = {"hello":"saurabh"}
+# 	return render(request,'home.html',context)
 
 
 class HomeView(TemplateView):
