@@ -3,7 +3,7 @@
 {% block content %}
 	<h1>Restaurant List</h1>
 	<ul>
-	{% for restaurant in restaurants %}
+	{% for restaurant in object_list %}
 		<li>{{ restaurant }}</li>
 	{% endfor %}
 	</ul>
