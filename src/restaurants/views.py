@@ -1,8 +1,8 @@
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render,get_object_or_404
 from django.views import View
-from django.views.generic.base import TemplateView
-from django.views.generic.list import ListView
+from django.views.generic import ListView,DetailView,TemplateView
+
 from django.db.models import Q
 # Create your views here.
 
@@ -17,6 +17,12 @@ def restaurant_listView(request):
 
 
 class RestaurantListView(ListView):
+	def get_context_data(self,**kwargs):
+		# print(self.kwargs,kwargs)
+		context = super().get_context_data(**kwargs)
+		print(context)
+		return context
+
 	def get_queryset(self):
 		slug = self.kwargs.get("slug")
 		if slug:
@@ -28,6 +34,34 @@ class RestaurantListView(ListView):
 			queryset = RestaurantLocation.objects.all()
 
 		return queryset
+
+
+class RestaurantDetailView(DetailView):
+	# This is only showing purpose.
+	# template_name = 'restaurants/restaurantLocation_DetailView.html'
+	queryset = RestaurantLocation.objects.all()
+
+	def get_context_data(self,**kwargs):
+		context = super().get_context_data(**kwargs)
+		print(context)
+		return context
+
+	def get_object(self,**kwargs):
+		rest_id = self.kwargs.get("rest_id")
+		obj = get_object_or_404(RestaurantLocation,pk=rest_id)
+		return obj
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 # class SearchRestaurantListView(ListView):
