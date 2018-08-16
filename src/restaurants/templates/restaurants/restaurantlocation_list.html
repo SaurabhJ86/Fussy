@@ -4,6 +4,7 @@
 	<h1>Restaurant List</h1>
 	<ul>
 	{% for restaurant in object_list %}
+		<a href="/restaurants/{{restaurant.slug}}">{{ restaurant }}</a>
 		<li>{{ restaurant }}</li>
 	{% endfor %}
 	</ul>

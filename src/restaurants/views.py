@@ -35,7 +35,7 @@ class RestaurantDetailView(DetailView):
 	queryset = RestaurantLocation.objects.all()
 
 	# This is used to check whether the id is present and if it is then return it.
-	def get_object(self,**kwargs):
-		rest_id = self.kwargs.get("rest_id")
-		obj = get_object_or_404(RestaurantLocation,pk=rest_id)
-		return obj
+	# def get_object(self,**kwargs):
+	# 	rest_id = self.kwargs.get("rest_id")
+	# 	obj = get_object_or_404(RestaurantLocation,pk=rest_id)
+	# 	return obj

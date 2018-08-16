@@ -3,8 +3,9 @@
 
 {% block content %}
 
-<h3>{{ object.title }} <small>{{ object.category}}</small> </h3>
+<h3>{{ object.title }} </h3>
 
+ <h4>{{ object.category}}</h4>
 {{ object.timestamp }}  Updated  {{ object.updated | timesince}} ago.
 
 {% endblock content %}
