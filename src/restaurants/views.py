@@ -17,12 +17,7 @@ def restaurant_listView(request):
 
 
 class RestaurantListView(ListView):
-	def get_context_data(self,**kwargs):
-		# print(self.kwargs,kwargs)
-		context = super().get_context_data(**kwargs)
-		print(context)
-		return context
-
+	# This is being used to override the get_queryset method so that it can return dynamic queryset.
 	def get_queryset(self):
 		slug = self.kwargs.get("slug")
 		if slug:
@@ -37,43 +32,10 @@ class RestaurantListView(ListView):
 
 
 class RestaurantDetailView(DetailView):
-	# This is only showing purpose.
-	# template_name = 'restaurants/restaurantLocation_DetailView.html'
 	queryset = RestaurantLocation.objects.all()
 
-	def get_context_data(self,**kwargs):
-		context = super().get_context_data(**kwargs)
-		print(context)
-		return context
-
+	# This is used to check whether the id is present and if it is then return it.
 	def get_object(self,**kwargs):
 		rest_id = self.kwargs.get("rest_id")
 		obj = get_object_or_404(RestaurantLocation,pk=rest_id)
 		return obj
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# class SearchRestaurantListView(ListView):
-# 	template_name = 'restaurants/restaurants_list.html'
-
-# 	def get_queryset(self):
-# 		slug = self.kwargs.get("slug")
-# 		if slug:
-# 			queryset = RestaurantLocation.objects.filter(
-# 				Q(category__iexact=slug)|
-# 				Q(category__icontains=slug)
-# 				)
-# 		else:
-# 			queryset = RestaurantLocation.objects.none()
-# 		return queryset
