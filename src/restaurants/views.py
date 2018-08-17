@@ -1,12 +1,21 @@
-from django.http import HttpResponse
+from django.http import HttpResponse,HttpResponseRedirect
 from django.shortcuts import render,get_object_or_404
 from django.views import View
-from django.views.generic import ListView,DetailView,TemplateView
+from django.views.generic import ListView,DetailView,TemplateView,CreateView
 
 from django.db.models import Q
 # Create your views here.
-
+from .forms import RestaurantLocationCreateForm
 from .models import RestaurantLocation
+
+# def restaurant_CreateForm(request):
+# 	form = RestaurantLocationCreateForm(request.POST or None)
+# 	if form.is_valid():
+# 		form.save()
+# 		return HttpResponseRedirect('/restaurants/')
+# 	template = 'restaurants/form.html'
+# 	context = {"form":RestaurantLocationCreateForm}
+# 	return render(request,template,context)
 
 def restaurant_listView(request):
 
@@ -34,8 +43,7 @@ class RestaurantListView(ListView):
 class RestaurantDetailView(DetailView):
 	queryset = RestaurantLocation.objects.all()
 
-	# This is used to check whether the id is present and if it is then return it.
-	# def get_object(self,**kwargs):
-	# 	rest_id = self.kwargs.get("rest_id")
-	# 	obj = get_object_or_404(RestaurantLocation,pk=rest_id)
-	# 	return obj
+class RestaurantCreateView(CreateView):
+	form_class = RestaurantLocationCreateForm
+	template_name = 'restaurants/form.html'
+	success_url = '/restaurants/'
