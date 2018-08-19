@@ -22,6 +22,7 @@ from restaurants.views import (
     RestaurantListView,
     RestaurantDetailView,
     # restaurant_CreateForm,
+    restaurant_createView,
     RestaurantCreateView,
     # SearchRestaurantListView,
 )
@@ -32,7 +33,8 @@ urlpatterns = [
     url(r'^about/$',TemplateView.as_view(template_name='about.html')),
     url(r'^restaurants/$',RestaurantListView.as_view()),
     # url(r'^restaurants/(?P<slug>\w+)/$',RestaurantListView.as_view()),
-    url(r'^restaurants/create/$',RestaurantCreateView.as_view()),
+    # url(r'^restaurants/create/$',RestaurantCreateView.as_view()),
+    url(r'^restaurants/create/$',restaurant_createView),
     url(r'^restaurants/(?P<slug>[\w-]+)/$',RestaurantDetailView.as_view()),
 
 ]

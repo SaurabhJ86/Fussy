@@ -8,6 +8,20 @@ from django.db.models import Q
 from .forms import RestaurantLocationCreateForm
 from .models import RestaurantLocation
 
+def restaurant_createView(request):
+	form = RestaurantLocationCreateForm(request.POST or None)
+	if form.is_valid():
+		if request.user.is_authenticated():
+			instance = form.save(commit=False)
+			instance.owner = request.user
+			instance.save()
+			return HttpResponseRedirect("/restaurants/")
+		else:
+			return HttpResponseRedirect("/login/")
+
+	template = "restaurants/form.html"
+	context = {"form":form}
+	return render(request,template,context)
 
 def restaurant_listView(request):
 
