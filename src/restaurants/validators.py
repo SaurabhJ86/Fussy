@@ -7,7 +7,7 @@ def validate_email(value):
 		raise ValidationError(".edu domain email address not allowed.")
 
 
-CATEGORIES = ['Indian','Chinese','American','European','English','Italian','Japanese','East Asian']
+CATEGORIES = ['Indian','Chinese','American','European','English','Italian','Japanese','East Asian','Lebanese']
 def validate_category(value):
 	cat = value.capitalize()
 	if cat not in CATEGORIES:
