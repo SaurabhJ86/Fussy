@@ -33,5 +33,6 @@ urlpatterns = [
     url(r'^password/$',PasswordResetView.as_view(),name='password_reset'),
     url(r'^about/$',TemplateView.as_view(template_name='about.html'),name="about"),
     url(r'^restaurants/', include('restaurants.urls',namespace="restaurants")),
+    url(r'^items/', include('menus.urls',namespace="menus")),
 
 ]
