@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 
@@ -18,8 +19,10 @@ class ItemDetailView(DetailView):
 		return Item.objects.filter(user=self.request.user)
 
 
-class ItemCreateView(CreateView):
+class ItemCreateView(LoginRequiredMixin,CreateView):
+	# This form would be passed to the template below.
 	form_class = ItemForm
+	# This template is saved at the src template folder.
 	template_name = "form.html"
 
 	def get_queryset(self):
@@ -30,19 +33,31 @@ class ItemCreateView(CreateView):
 		instance.user = self.request.user
 		return super().form_valid(form)
 
+	def get_form_kwargs(self):
+		kwargs = super().get_form_kwargs()
+		kwargs["user"] = self.request.user
+		# kwargs["text"] = "Hello there"
+		return kwargs
+
 	def get_context_data(self,*args,**kwargs):
 		context = super().get_context_data(**kwargs)
 		context['title'] = "Add Menu Item"
 		return context
 
 
-class ItemUpdateView(UpdateView):
+class ItemUpdateView(LoginRequiredMixin,UpdateView):
 	form_class = ItemForm
+	template_name = "form.html"
 
 	def get_queryset(self):
 		return Item.objects.filter(user=self.request.user)
 
 	def get_context_data(self,*args,**kwargs):
 		context = super().get_context_data(**kwargs)
-		context["title"] = "Add Menu Item"
+		context["title"] = "Edit Menu Item"
 		return context
+
+	def get_form_kwargs(self):
+		kwargs = super().get_form_kwargs()
+		kwargs["user"] = self.request.user
+		return kwargs
