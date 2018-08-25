@@ -47,13 +47,15 @@ class ItemCreateView(LoginRequiredMixin,CreateView):
 
 class ItemUpdateView(LoginRequiredMixin,UpdateView):
 	form_class = ItemForm
-	template_name = "form.html"
+	# template_name = "form.html"
+	template_name = "menus/detail-update.html"
 
 	def get_queryset(self):
 		return Item.objects.filter(user=self.request.user)
 
 	def get_context_data(self,*args,**kwargs):
 		context = super().get_context_data(**kwargs)
+		print(context)
 		context["title"] = "Edit Menu Item"
 		return context
 

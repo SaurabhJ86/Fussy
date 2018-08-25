@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block head_title %} {{ object.name}} | Menu Item {% endblock head_title %}
+
+
+{% block content %}
+
+<br>
+
+<h4>Item Name: {{ object.name }}</h4>
+<p>Restaurant: {{ object.restaurant}} </p>
+Created on {{ object.timestamp }} , Updated  {{ object.updated | timesince}} ago.
+<br>
+
+{% if object.get_contents %}
+	Contents
+	<ul>
+		{% for item in object.get_contents %}
+			<li>{{ item }}</li>
+		{% endfor %}
+	</ul>
+{% endif %}
+
+{% if object.get_exclude %}
+	Exclude
+	<ul>
+		{% for item in object.get_exclude %}
+			<li>{{ item }}</li>
+		{% endfor %}
+	</ul>
+{% endif %}
+
+
+<hr>
+
+<h3>Make Changes</h3>
+{% include 'snippets/form-snippet.html' with form=form %}
+
+{% endblock content %}

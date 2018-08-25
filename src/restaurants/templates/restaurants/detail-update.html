@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<br>
+
+<h3>{{ object.name }} <small>{{ object.category }}</small></h3>
+Created on {{ object.timestamp }} , Updated  {{ object.updated | timesince}} ago.
+<hr>
+
+<h3>Make Changes</h3>
+{% include 'snippets/form-snippet.html' with form=form %}
+
+{% endblock content %}

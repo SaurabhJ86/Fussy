@@ -16,7 +16,6 @@ class ItemForm(forms.ModelForm):
 		]
 
 	def __init__(self,user=None,*args,**kwargs):
-		print(user)
 		# a = kwargs.pop('text',None)
 		# print(a)
 		super(ItemForm,self).__init__(*args,**kwargs)

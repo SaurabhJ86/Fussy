@@ -1,12 +1,15 @@
 {% extends 'base.html' %}
 
 {% block content %}
-	<h1>Restaurant List</h1>
+	<h2>My Restaurants <small><a href="{% url 'restaurants:create' %}">Add</a></small></h2>
 	<ul>
 	{% for restaurant in object_list %}
 		<a href="{{ restaurant.get_absolute_url }}">{{ restaurant }}</a>
 		<li>{{ restaurant }}</li>
+	{% empty %}
+		<li><a href="{% url 'restaurants:create' %}">Add Restaurant</a></li>
 	{% endfor %}
 	</ul>
+
 {% endblock content %}	
 
