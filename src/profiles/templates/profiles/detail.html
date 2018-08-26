@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<br>
+
+<h3 align="center">Owner: <small>{{ object.username }}</small></h3>
+
+{% for rest in object.restaurantlocation_set.all %}
+	<br>
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="card">
+				<ul>
+					<li><b>{{ rest.title }}</b> | {{ rest.category }} at Location: {{ rest.location }}</li>
+						<ul>
+							{% for dish in rest.item_set.all %}
+								<li style="margin-bottom: 20px;">{{ dish.name }}<br>
+										{% for ing in dish.get_contents %}
+											<span style="padding: 2px 4px;margin-right: 4px;background-color: #ccc">{{ ing }},</span>
+										{% endfor %}
+								</li>
+								{% empty %}
+									<p>No dish has been suggested by the user yet.</p>
+
+							{% endfor %}				
+						</ul>
+
+				</ul>
+			</div>
+		</div>
+	</div>
+
+{% endfor %}
+
+{% endblock %}
