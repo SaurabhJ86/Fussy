@@ -6,31 +6,45 @@
 
 <h3 align="center">Owner: <small>{{ object.username }}</small></h3>
 
-{% for rest in object.restaurantlocation_set.all %}
-	<br>
-	<div class="row">
-		<div class="col-sm-12">
-			<div class="card">
-				<ul>
-					<li><b>{{ rest.title }}</b> | {{ rest.category }} at Location: {{ rest.location }}</li>
-						<ul>
-							{% for dish in rest.item_set.all %}
-								<li style="margin-bottom: 20px;">{{ dish.name }}<br>
-										{% for ing in dish.get_contents %}
-											<span style="padding: 2px 4px;margin-right: 4px;background-color: #ccc">{{ ing }},</span>
-										{% endfor %}
-								</li>
-								{% empty %}
-									<p>No dish has been suggested by the user yet.</p>
+<form class="form" method="GET" action=".">
+	<input type="text" name="q" placeholder="Search..">
+	<button class="btn btn-primary" type="submit">Search</button>
+</form>
 
-							{% endfor %}				
-						</ul>
+{% if locations %}
 
-				</ul>
+	{% for rest in locations %}
+		<br>
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="card">
+					<ul>
+						<li><b>{{ rest.title }}</b> | <a href="{{ request.path}}?q={{ rest.category }}">{{ rest.category }}</a> at Location: <a href="{{ request.path}}?q={{ rest.location }}">{{ rest.location }}</a></li>
+							<ul>
+								{% for dish in rest.item_set.all %}
+									<li style="margin-bottom: 20px;">{{ dish.name }}<br>
+											{% for ing in dish.get_contents %}
+												<!-- <span style="padding: 2px 4px;margin-right: 4px;background-color: #ccc">{{ ing }},</span> -->
+												<a href="{{ request.path }}?q={{ ing }}">{{ ing }}</a>
+											{% endfor %}
+									</li>
+									{% empty %}
+										<p>No dish has been suggested by the user yet.</p>
+
+								{% endfor %}				
+							</ul>
+
+					</ul>
+				</div>
 			</div>
 		</div>
-	</div>
 
-{% endfor %}
+	{% endfor %}
+
+{% else %}
+
+	<h2 align="center">No Item added.</h2>
+
+{% endif %}
 
 {% endblock %}

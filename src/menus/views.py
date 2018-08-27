@@ -8,10 +8,13 @@ from .models import Item
 
 
 class ItemListView(ListView):
-
 	def get_queryset(self):
 		return Item.objects.filter(user=self.request.user)
 
+	def get_context_data(self,**kwargs):
+		context = super().get_context_data(**kwargs)
+		print(context)
+		return context
 
 class ItemDetailView(DetailView):
 
@@ -55,7 +58,6 @@ class ItemUpdateView(LoginRequiredMixin,UpdateView):
 
 	def get_context_data(self,*args,**kwargs):
 		context = super().get_context_data(**kwargs)
-		print(context)
 		context["title"] = "Edit Menu Item"
 		return context
 
