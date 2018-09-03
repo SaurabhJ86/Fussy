@@ -24,6 +24,7 @@ class ProfileDetailView(DetailView):
 		# Since this is a DetailView it will return the object in the context which in this case would be the name in the url.
 		user = context['object']
 		query = self.request.GET.get("q")
+		# The search will use the QuerySet from the filter part and put another filter using query. If no query, then it would return self.
 		qs = RestaurantLocation.objects.filter(owner=user).search(query)
 		item_exists = Item.objects.filter(user=user).exists()
 		# This to make sure that the user has created the restaurant as well as the items.
