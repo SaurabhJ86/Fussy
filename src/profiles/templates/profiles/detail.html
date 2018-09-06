@@ -6,6 +6,8 @@
 
 <h3 align="center">Owner: <small>{{ object.username }}</small></h3>
 
+<p> {% include 'profiles/snippet/follow_form.html' with username=object.username is_following=is_following %}</p>
+
 <form class="form" method="GET" action=".">
 	<input type="text" name="q" placeholder="Search..">
 	<button class="btn btn-primary" type="submit">Search</button>
