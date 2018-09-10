@@ -40,6 +40,7 @@ INSTALLED_APPS = [
 
     'menus',
     'profiles',
+    'Profils',
     'restaurants',
 ]
 

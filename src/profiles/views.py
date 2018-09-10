@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import HttpResponse
 from django.shortcuts import render,get_object_or_404,redirect
 from django.views.generic import DetailView,View
 
@@ -11,6 +12,22 @@ from restaurants.models import RestaurantLocation
 from .models import Profile
 
 User = get_user_model()
+
+"""
+The below CBV View is for testing and revision purposes.Please check the sheet Django Theory where I have 
+explained about View CBV
+"""
+class AnotherProfileToToggle(LoginRequiredMixin,View):
+	def post(self,request,*args,**kwargs):
+		profile_toggle = request.POST.get("username")
+		profile = Profile.objects.get(user__username__iexact=profile_toggle)
+		loggedUser = request.user
+		if loggedUser in profile.followers.all():
+			profile.followers.remove(loggedUser)
+		else:
+			profile.followers.add(loggedUser)
+		return redirect(f"/profile/{profile}/")
+
 
 class ProfileFollowToggle(LoginRequiredMixin,View):
 	def post(self,request,*args,**kwargs):
@@ -42,8 +59,9 @@ class ProfileDetailView(DetailView):
 		user = context['object']
 		# The below three lines are important as they would dictate whether we want a Follow button or UnFollow button.
 		is_following = False
-		if user.profile in self.request.user.is_following.all():
-			is_following = True
+		if self.request.user.is_authenticated:
+			if user.profile in self.request.user.is_following.all():
+				is_following = True
 		context["is_following"] = is_following
 		query = self.request.GET.get("q")
 		# The search will use the QuerySet from the filter part and put another filter using query. If no query, then it would return self.

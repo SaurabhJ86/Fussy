@@ -1,11 +1,19 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from django.views.generic import View, ListView, DetailView, CreateView, UpdateView
 
 
 from .forms import ItemForm
 from .models import Item
 
+class HomeFeedView(View):
+	def get(self,request,*args,**kwargs):
+		user = request.user
+		is_following = [x.user.id for x in user.is_following.all()]
+		qs = Item.objects.filter(user__id__in=is_following,public=True)[:4]
+		template = 'menus/home-feed.html'
+		context = {"object_list":qs,}
+		return render(request,template,context)
 
 class ItemListView(ListView):
 	def get_queryset(self):
@@ -13,7 +21,6 @@ class ItemListView(ListView):
 
 	def get_context_data(self,**kwargs):
 		context = super().get_context_data(**kwargs)
-		print(context)
 		return context
 
 class ItemDetailView(DetailView):

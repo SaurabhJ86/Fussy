@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h3 align="center">User Following Feed</h3>
+
+{% for obj in object_list %}
+
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-6 col-sm-offer-6">
+				<div class="card">
+					<ul>
+						<a href="{% url 'profile:detail' username=obj.user %}">{{ obj.user }}</a>
+						<li>{{ obj.restaurant }} <a href="">{{ obj.restaurant.location }}</a></li>
+						<ul>
+							<p>Item name: {{ obj.name }}</p>
+								{% for ing in obj.get_contents %}
+									<li>{{ ing }}</li>
+								{% endfor  %}
+						</ul>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+{% endfor %}
+
+{% endblock %}
