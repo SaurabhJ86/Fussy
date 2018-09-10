@@ -6,7 +6,7 @@ from django.views.generic import View, ListView, DetailView, CreateView, UpdateV
 from .forms import ItemForm
 from .models import Item
 
-class HomeFeedView(View):
+class HomeFeedView(LoginRequiredMixin,View):
 	def get(self,request,*args,**kwargs):
 		user = request.user
 		is_following = [x.user.id for x in user.is_following.all()]
