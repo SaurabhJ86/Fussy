@@ -15,6 +15,16 @@ from .models import Profile
 
 User = get_user_model()
 
+def activateProfileView(request,code=None,*args,**kwargs):
+	if code:
+		qs = Profile.objects.filter(activation_key__iexact=code)
+		if qs.exists() and qs.count() == 1:
+			user = qs.first()
+			if not user.activated:
+				user.activated = True
+				user.save()
+		return redirect("/")
+
 
 class RegisterView(CreateView):
 	form_class = RegisterForm

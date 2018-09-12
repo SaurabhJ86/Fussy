@@ -1,6 +1,10 @@
 from django.conf import settings
+from django.core.mail import send_mail
+from django.core.urlresolvers import reverse
 from django.db import models
 from django.db.models.signals import post_save
+
+from .utils import random_string_generator
 
 User = settings.AUTH_USER_MODEL
 
@@ -17,13 +21,12 @@ class ProfileManager(models.Manager):
 		return profile,is_following
 
 class Profile(models.Model):
-	user 		= models.OneToOneField(User)#user.profile
-	followers 	= models.ManyToManyField(User,related_name="is_following",blank=True)#user.followers
-	# Not Required since the above would do the work for both of them.
-	# following 	= models.ManyToManyField(User,related_name="following",blank=True)#user.following
-	activated 	= models.BooleanField(default=False)
-	timestamp 	= models.DateTimeField(auto_now_add=True)
-	updated 	= models.DateTimeField(auto_now=True)
+	user 			= models.OneToOneField(User)#user.profile
+	followers 		= models.ManyToManyField(User,related_name="is_following",blank=True)#user.followers
+	activation_key 	= models.CharField(max_length=120,blank=True,null=True)
+	activated 		= models.BooleanField(default=False)
+	timestamp 		= models.DateTimeField(auto_now_add=True)
+	updated 		= models.DateTimeField(auto_now=True)
 
 	objects = ProfileManager()
 
@@ -31,8 +34,16 @@ class Profile(models.Model):
 		return self.user.username
 
 	def send_activation_email(self):
-		print("Something")
-		pass
+		if not self.activated:
+			self.activation_key = random_string_generator()
+			self.save()
+			path_ 				= reverse("activate",kwargs={"code":self.activation_key})
+			subject 			= "Account Activation"
+			from_email 			= settings.EMAIL_HOST_USER
+			message 			= f"Hello{self.user.username},\n\n Please click on the below link to activate your account.\n  http:127.0.0.1:8000{path_}"
+			to_email 			= [self.user.email]
+			mail_confirmation 	= send_mail(subject,message,from_email,to_email,fail_silently=False)
+			return mail_confirmation
 
 
 def post_save_user_receiver(sender,instance,created,*args,**kwargs):

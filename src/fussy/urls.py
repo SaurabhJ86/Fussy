@@ -5,7 +5,7 @@ from django.contrib.auth.views import LoginView,PasswordResetView,LogoutView
 
 from menus.views import HomeFeedView
 
-from profiles.views import ProfileFollowToggle,AnotherProfileToToggle,RegisterView
+from profiles.views import activateProfileView,ProfileFollowToggle,AnotherProfileToToggle,RegisterView
 # from Profils.views import UserFollowToggle
 
 urlpatterns = [
@@ -14,6 +14,7 @@ urlpatterns = [
     url(r'^$', HomeFeedView.as_view(),name="home"),
     url(r'^contact/$',TemplateView.as_view(template_name='contact.html'),name="contact"),
     url(r'^register/$',RegisterView.as_view(),name='register'),
+    url(r'^activation/(?P<code>[\w-]+)/$',activateProfileView,name='activate'),
     url(r'^login/$',LoginView.as_view(),name='login'),
     url(r'^logout/$',LogoutView.as_view(),name='logout'),
     url(r'^profile-follow/$',ProfileFollowToggle.as_view(),name='follow'),

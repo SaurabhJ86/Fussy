@@ -24,6 +24,7 @@ class RegisterForm(forms.ModelForm):
             raise forms.ValidationError("Passwords don't match")
         return password2
 
+    """To make sure that duplicate emails are not saved in the DB."""
     def clean_email(self):
         email = self.cleaned_data.get('email')
         qs = User.objects.filter(email__iexact=email)
@@ -37,5 +38,6 @@ class RegisterForm(forms.ModelForm):
         user.set_password(self.cleaned_data["password1"])
         if commit:
             user.save()
+            # This will send an activation email to the user.
             user.profile.send_activation_email()
         return user
