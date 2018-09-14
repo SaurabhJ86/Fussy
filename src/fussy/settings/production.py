@@ -20,13 +20,30 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__fil
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'gl(f1ny7ov8j-r5i7@qp@5tu@m2a-oyo8u#bero$yh*nypvuqz'
+# SECRET_KEY = 'gl(f1ny7ov8j-r5i7@qp@5tu@m2a-oyo8u#bero$yh*nypvuqz'
+SECRET_KEY = os.environ.get("SECRET_KEY","gl(f1ny7ov8j-r5i7@qp@5tu@m2a-oyo8u#bero$yh*nypvuqz")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [".herokuapp.com"]
 
+# ALLOWED_HOSTS = ["*"]
+
+# EMAIL_HOST = 'smtp.gmail.com'
+# # This will get the both email address and password from the environment variable which has been set in heroku.
+# EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
+# EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_PASSWORD")
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+
+DEFAULT_FROM_EMAIL = "team@avocod.com"
+SERVER_EMAIL = "team@avocod.com"
+EMAIL_HOST = 'smtp.webfaction.com'
+EMAIL_HOST_USER = os.environ.get("webmail")
+EMAIL_HOST_PASSWORD = os.environ.get("webmail_password")
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
 
 # Application definition
 
@@ -37,6 +54,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'menus',
+    'profiles',
+    'Profils',
+    'restaurants',
+
+    # Third Party Apps
+    'crispy_forms'
 ]
 
 MIDDLEWARE = [
@@ -54,7 +79,7 @@ ROOT_URLCONF = 'fussy.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR,'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -79,6 +104,11 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+
+import dj_database_url
+db_from_env = dj_database_url.config()
+DATABASES['default'].update(db_from_env)
+DATABASES['default']['CONN_MAX_AGE'] = 500
 
 
 # Password validation
@@ -118,3 +148,16 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+
+LOGIN_REDIRECT_URL = '/'
+
+
+CORS_REPLACE_HTTPS_REFERER      = True
+HOST_SCHEME                     = "https://"
+SECURE_PROXY_SSL_HEADER         = ('HTTP_X_FORWARDED_PROTO', 'https')
+SECURE_SSL_REDIRECT             = True
+SESSION_COOKIE_SECURE           = True
+CSRF_COOKIE_SECURE              = True
+SECURE_HSTS_INCLUDE_SUBDOMAINS  = True
+SECURE_HSTS_SECONDS             = 1000000
+SECURE_FRAME_DENY               = True

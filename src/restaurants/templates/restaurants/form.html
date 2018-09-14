@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% load crispy_forms_tags %}
+
 {% block head_title %} Add Restaurant | {{ block.super }}{% endblock head_title %}
 
 {% block content %}
@@ -9,8 +11,8 @@
 	{{ form.error }}
 {% endif %}
 
-<form method="POST">{% csrf_token %}
-	{{ form.as_p }}
+<form class="form" method="POST">{% csrf_token %}
+	{{ form|crispy }}
 	<button type="input">Submit</button>
 </form>
 

@@ -1,4 +1,6 @@
 .DS_Store
+src/.gitignore
+src/Procfile
 bin/
 lib/
 include/
